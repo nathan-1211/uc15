@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Imagem Única — Expansão via JS</title>
+  <style>
+    body {
+      background: #0f172a;
+    }
+
+    /* Regras fixas (sem responsividade) */
+    img {
+      display: block;         /* para margin auto */
+      width: 600px;           /* largura fixa */
+      height: 400px;          /* altura fixa */
+      margin: 40px auto;      /* centraliza horizontalmente */
+      object-fit: cover;      /* preenche a área fixa (com corte se necessário) */
+      border-radius: 12px;
+      transition: transform 200ms ease, box-shadow 200ms ease, filter 200ms ease;
+      will-change: transform;
+    }
+
+    /* Não há :hover aqui. A classe abaixo é aplicada SOMENTE via JS. */
+    img.is-expanded {
+      transform: scale(1.06);
+      box-shadow: 0 16px 44px rgba(14,165,233,0.25);
+    }
+  </style>
+</head>
+<body>
+  <!-- Único elemento -->
+  <img
+    id="foto"
+    src="chaves.png"
+    alt="Chaves olhando para câmera"
+    loading="lazy"
+  />
+
+  <script>
+    // Expansão 100% controlada por JS:
+    // - Clique/tap alterna a classe .is-expanded
+    // - Teclas Enter/Espaço também alternam (acessibilidade)
+    const img = document.getElementById('foto');
+
+    // Permitir foco para teclado
+    img.tabIndex = 0;
+
+    // Clique ou toque
+    img.addEventListener('click', () => {
+      img.classList.toggle('is-expanded');
+    });
+
+    // Teclado: Enter ou Espaço
+    img.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        img.classList.toggle('is-expanded');
+        e.preventDefault();
+      }
+    });
+
+
+    img.addEventListener('mouseenter', () => img.classList.add('is-expanded'));
+    img.addEventListener('mouseleave', () => img.classList.remove('is-expanded'));
+  </script>
+</body>
+</html>
